@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>OmarTV</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: 'Cairo', sans-serif;
+    background: radial-gradient(circle at 10% 20%, #0a0f1c, #03060c);
+    color: #ffffff;
+    text-align: center;
+    padding: 20px 16px 40px;
+    min-height: 100vh;
+  }
+
+  /* تحسين التركيز للتلفاز (TV) */
+  .focusable {
+    transition: all 0.2s ease;
+    cursor: pointer;
+    border: 2px solid transparent;
+  }
+
+  .focusable:focus, .focus {
+    outline: none;
+    border-color: #ffcc00 !important;
+    box-shadow: 0 0 0 3px rgba(255, 204, 0, 0.6), 0 0 20px rgba(30, 144, 255, 0.8);
+    transform: scale(1.02);
+    background: rgba(30, 144, 255, 0.2);
+  }
+
+  /* الشعار */
+  .logo {
+    width: 130px;
+    border-radius: 30px;
+    margin: 10px auto;
+    background: #ffffff10;
+    padding: 8px;
+    box-shadow: 0 0 30px rgba(30,144,255,0.5);
+  }
+
+  h1 {
+    font-size: 48px;
+    background: linear-gradient(135deg, #FFFFFF, #1e90ff, #00e0ff);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    margin: 5px 0;
+    letter-spacing: -1px;
+  }
+
+  .sub {
+    color: #b9c7d9;
+    font-size: 18px;
+    margin-bottom: 20px;
+  }
+
+  /* زر التحميل الرئيسي */
+  .download-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    background: linear-gradient(95deg, #f0b400, #ff6a00);
+    padding: 16px 44px;
+    margin: 15px 0 10px;
+    border-radius: 60px;
+    font-size: 26px;
+    font-weight: 800;
+    text-decoration: none;
+    color: #111;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.5), 0 0 15px #ffbb33;
+    transition: 0.2s;
+  }
+
+  .download-btn:hover, .download-btn.focus {
+    transform: scale(1.05);
+    background: linear-gradient(95deg, #ffcc33, #ff7b00);
+    box-shadow: 0 0 28px #ffaa33;
+  }
+
+  /* حزم الجودات لـ beIN SPORT */
+  .section-title {
+    font-size: 28px;
+    font-weight: 800;
+    margin: 35px 0 15px;
+    border-right: 5px solid #1e90ff;
+    padding-right: 20px;
+    text-align: right;
+    background: linear-gradient(90deg, transparent, #ffffff08);
+  }
+
+  .grid-quality {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+
+  .quality-card {
+    background: #0f172acc;
+    backdrop-filter: blur(4px);
+    border-radius: 28px;
+    padding: 16px 20px;
+    min-width: 130px;
+    border: 1px solid #2d3b55;
+    transition: 0.2s;
+  }
+
+  .quality-card span {
+    display: block;
+    font-size: 28px;
+    font-weight: 800;
+  }
+
+  .quality-card small {
+    font-size: 14px;
+    color: #aac8ff;
+  }
+
+  /* باقات متعددة (أطفال، أخبار، وثائقي) */
+  .pack-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 16px;
+    margin: 25px 0;
+  }
+
+  .pack-card {
+    background: #111c2e;
+    border-radius: 24px;
+    padding: 20px 8px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 18px;
+    transition: 0.2s;
+    border: 1px solid #2a3b55;
+  }
+
+  .pack-card i { font-size: 32px; display: block; margin-bottom: 12px; }
+
+  /* قنوات رياضية عربية و 4K */
+  .channels-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+    gap: 12px;
+    margin: 20px 0;
+  }
+
+  .channel-item {
+    background: linear-gradient(145deg, #0a1424, #03070f);
+    border-radius: 20px;
+    padding: 14px;
+    text-align: center;
+    font-size: 18px;
+    font-weight: 600;
+    border-bottom: 3px solid #ffb347;
+  }
+
+  .badge-4k {
+    background: #ff4444;
+    border-radius: 40px;
+    font-size: 12px;
+    padding: 4px 12px;
+    display: inline-block;
+    margin-right: 12px;
+    font-weight: bold;
+  }
+
+  .footnote {
+    color: #7e8aa2;
+    margin-top: 20px;
+    font-size: 14px;
+    background: #00000040;
+    padding: 12px;
+    border-radius: 40px;
+  }
+
+  footer {
+    margin-top: 45px;
+    font-size: 13px;
+    opacity: 0.7;
+  }
+
+  @media (max-width: 600px) {
+    h1 { font-size: 36px; }
+    .download-btn { font-size: 20px; padding: 12px 28px; }
+    .quality-card span { font-size: 22px; }
+  }
+
+  /* إخفاء التمرير الزائد */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: #0f172a; }
+  ::-webkit-scrollbar-thumb { background: #1e90ff; border-radius: 10px; }
+</style>
+</head>
+<body>
+
+<img src="logo.png" class="logo" alt="OmarTV Logo" onerror="this.src='https://placehold.co/130x130/1e3a8a/white?text=OmarTV'">
+
+<h1>OmarTV <span style="font-size: 0.8em;">⚡</span></h1>
+<p class="sub">العالم في مكان واحد | بي إن سبورت بكل الجودات + 4K حصرية</p>
+
+<!-- زر تحميل APK (التلفاز يصل له أولوية) -->
+<a href="#" id="mainDownloadBtn" class="download-btn focusable" tabindex="0">📲 تحميل تطبيق OmarTV الآن</a>
+<p style="font-size:13px; margin-top:5px;">نسخة TV | يدعم جميع أجهزة Android | تحديث يومي</p>
+
+<!-- قسم بي إن سبورت بجودات متعددة تناسب كل النتائج -->
+<div class="section-title">⚽ باقات beIN SPORT – جودات متعددة لجميع سرعات النت</div>
+<div class="grid-quality">
+  <div class="quality-card focusable" tabindex="0" data-quality="hd"> <span>HD</span> <small>جودة عالية | نت سريع</small> </div>
+  <div class="quality-card focusable" tabindex="0" data-quality="sd"> <span>SD</span> <small>جودة عادية | نت متوسط</small> </div>
+  <div class="quality-card focusable" tabindex="0" data-quality="mobile"> <span>📱 Mobile</span> <small>بيانات أقل | 240p-360p</small> </div>
+  <div class="quality-card focusable" tabindex="0" data-quality="4k"> <span>4K ULTRA</span> <small>فائقة الوضوح | beIN 4K</small> </div>
+</div>
+
+<!-- باقات ترفيه: أطفال - أخبار - وثائقي + إضافة يومية -->
+<div class="section-title">🎠 باقات ترفيهية | أطفال · أخبار · وثائقي · تحديث يومي</div>
+<div class="pack-grid" id="dynamicPacks">
+  <div class="pack-card focusable" tabindex="0" data-category="kids">🧸 <strong>أطفال</strong><br>كرتون نتورك<br>سبيس تون</div>
+  <div class="pack-card focusable" tabindex="0" data-category="news">📰 <strong>أخبار</strong><br>الجزيرة · العربية · سكاي</div>
+  <div class="pack-card focusable" tabindex="0" data-category="doc">🌍 <strong>وثائقي</strong><br>ناشيونال جيوغرافيك<br>بي بي سي earth</div>
+  <div class="pack-card focusable" tabindex="0" data-category="daily">🆕 <strong>يومي + حسب الطلب</strong><br>قنوات مضافة<br>(يتم تحديثها أسبوعياً)</div>
+</div>
+
+<!-- قنوات رياضية عربية + أفلام ومسلسلات 4K -->
+<div class="section-title">🏆 قنوات رياضية عربية وعالمية | أفلام & مسلسلات بدقة 4K</div>
+<div class="channels-row">
+  <div class="channel-item focusable" tabindex="0">⚽ SSC (السعودية الرياضية)</div>
+  <div class="channel-item focusable" tabindex="0">🏟️ AD Sports (أبوظبي)</div>
+  <div class="channel-item focusable" tabindex="0">🇶🇦 Alkass sports</div>
+  <div class="channel-item focusable" tabindex="0">🌍 beIN SPORTS 1-12</div>
+</div>
+
+<div class="section-title">🎬 أفلام ومسلسلات بدقة 4K + مكتبة ضخمة</div>
+<div class="channels-row">
+  <div class="channel-item focusable" tabindex="0">🎞️ 4K HDR أفلام أكشن <span class="badge-4k">4K</span></div>
+  <div class="channel-item focusable" tabindex="0">📺 مسلسلات رمضان 2025 <span class="badge-4k">4K</span></div>
+  <div class="channel-item focusable" tabindex="0">🍿 قاعدة بيانات محدثة يومياً</div>
+  <div class="channel-item focusable" tabindex="0">🎭 قنوات MBC 4K دراما</div>
+</div>
+
+<div class="footnote">
+  🔥 يتم إضافة قنوات يومياً وحسب طلب المشاهدين | تواصل معنا عبر التطبيق لطلب قناة رياضية أو فيلم معين
+</div>
+
+<footer>
+  <p>© 2026 OmarTV – جميع الحقوق محفوظة | التطبيق مجاني | يدعم الـ TV Box و Android</p>
+</footer>
+
+<script>
+  // --------------------------------------------------------------
+  // 1. التركيز الكامل لأزرار التلفاز (التركيز فقط على عناصر قابلة للتحميل “زر التحميل” أولوية)
+  //    لكن مع ضمان أن المستخدم يمكنه التنقل بين جميع عناصر الواجهة ولكن بتركيز رئيسي على زر التحميل.
+  //    نعطي مؤشر "focusable" لكل العناصر التفاعلية، ونضمن عند فتح الصفحة أول تركيز على زر التحميل.
+  //    كما يجب أن يصل بالريموت إلى "التحميل" بسهولة.
+  // --------------------------------------------------------------
+  
+  // جمع كل العناصر القابلة للتركيز (جميع الأزرار والبطاقات التفاعلية لديها class="focusable")
+  const focusableElements = Array.from(document.querySelectorAll('.focusable'));
+  
+  // إضافة زر التحميل كأولوية index 0 (تم وضعه أول عنصر focusable في الـ DOM)
+  // التأكد من أن زر التحميل هو أول التركيز
+  let currentFocusIndex = 0;
+  
+  function removeAllFocus() {
+    focusableElements.forEach(el => el.classList.remove('focus'));
+  }
+  
+  function setFocus(index) {
+    if (!focusableElements.length) return;
+    removeAllFocus();
+    // wrap index
+    if (index < 0) index = focusableElements.length - 1;
+    if (index >= focusableElements.length) index = 0;
+    currentFocusIndex = index;
+    const targetEl = focusableElements[currentFocusIndex];
+    targetEl.classList.add('focus');
+    targetEl.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });
+    // لتأكيد التركيز الفعلي على العنصر الذي يستقبل الأحداث (مهم للتلفاز)
+    targetEl.focus({ preventScroll: true });
+  }
+  
+  // التعامل مع أزرار الريموت (Android TV)
+  document.addEventListener('keydown', (e) => {
+    const key = e.key;
+    // الأسهم: لليمين ولأسفل -> التالي   // لليسار ولأعلى -> السابق
+    if (key === 'ArrowRight' || key === 'ArrowDown') {
+      e.preventDefault();
+      setFocus(currentFocusIndex + 1);
+    } else if (key === 'ArrowLeft' || key === 'ArrowUp') {
+      e.preventDefault();
+      setFocus(currentFocusIndex - 1);
+    } else if (key === 'Enter' || key === ' ' ) {
+      e.preventDefault();
+      const current = focusableElements[currentFocusIndex];
+      if (current) {
+        current.click();
+        // محاكاة المؤثر البصري
+        current.style.transform = 'scale(0.97)';
+        setTimeout(() => { if(current) current.style.transform = ''; }, 150);
+      }
+    }
+  });
+  
+  // عند تحميل الصفحة نضمن أن التركيز الأولي على زر التحميل (وهو أول focusable في الترتيب)
+  // لكن تحسبًا لو ترتيب DOM مختلف فإن id download هو الأهم
+  window.addEventListener('load', () => {
+    // إعادة تعريف focusableArrays مرة أخرى بعد التحميل (للتأكد)
+    const freshFocus = Array.from(document.querySelectorAll('.focusable'));
+    // إذا كان لدينا export مؤشرات جديدة
+    focusableElements.length = 0;
+    freshFocus.forEach(el => focusableElements.push(el));
+    // إيجاد زر التحميل وجعله الأولوية القصوى
+    const downloadBtnDirect = document.getElementById('mainDownloadBtn');
+    const btnIndex = focusableElements.findIndex(el => el.id === 'mainDownloadBtn');
+    if (btnIndex !== -1 && btnIndex !== 0) {
+      // نعيد ترتيب المصفوفة بحيث يكون زر التحميل في المقدمة
+      const btnElement = focusableElements.splice(btnIndex, 1)[0];
+      focusableElements.unshift(btnElement);
+    }
+    currentFocusIndex = 0;
+    setFocus(0);
+  });
+  
+  // ------------------- وظيفة التحميل الفعلية -------------------
+  // الرابط الأصلي يمكن استبداله مع وقت التشغيل، لكن هذا التطبيق يتيح تنزيل APK
+  // نضع رابط افتراضي ثم نقوم بإنشاء رابط تفاعلي يعرض رسائل جذابة ويوجه إلى تحميل مباشر
+  // سأقوم بإضافة ديناميكياً أفضل تنبيه للمستخدم مع محاكاة رابط تحميل قوي وهمي ولكن ليكون حقيقي يمكن استبدال PUT_APK_LINK_HERE
+  // ولكن نظرًا لأن المطلوب تطبيق bein sport جودات متعددة وكل شيء، سنقوم بربط التحميل بملف APK توضيحي.
+  
+  const downloadBtn = document.getElementById('mainDownloadBtn');
+  
+  // تعيين الرابط الحقيقي (في حال الرفع على سيرفر نضع الرابط الفعلي، حالياً وضع رابط توضيحي)
+  // لكن لتفعيل التجربة سنقوم بوضع رابط Dummy لكن مع رسالة توضح أن apk جاهز
+  // لكن سنقوم بإنشاء محاكاة للتحميل بشكل واقعي، يمكن للمطور لاحقاً وضع APK link.
+  // لكن بحيث يعمل في بيئة تلفاز : نفتح رابط التحميل.
+  const APK_DOWNLOAD_URL = "https://omar-tv-cdn.example.com/downloads/OmarTV_latest.apk"; // <- استبدل بالرابط الحقيقي للمستخدم
+  
+  // دالة عرض رسالة دعم للتلفاز تفيد ببدء تحميل APK أو فتح الرابط
+  function triggerDownload(ev) {
+    ev.preventDefault();
+    // نحاكي تحميل فعال للمستخدم
+    // بما أن البيئة قد تكون تلفاز، نفتح رابط تنزيل مباشر
+    const link = document.createElement('a');
+    link.href = APK_DOWNLOAD_URL;
+    // في حالة التلفاز يمكن التوجيه بنفس النافذة
+    link.download = 'OmarTV_beIN_sport.apk';
+    link.target = '_blank';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    // إظهار إشعار للمستخدم
+    const toastMsg = document.createElement('div');
+    toastMsg.innerText = '🚀 جاري تحميل تطبيق OmarTV... يبدأ التثبيت فور اكتمال التحميل';
+    toastMsg.style.position = 'fixed';
+    toastMsg.style.bottom = '30px';
+    toastMsg.style.left = '20px';
+    toastMsg.style.right = '20px';
+    toastMsg.style.backgroundColor = '#1e90ffcc';
+    toastMsg.style.color = 'white';
+    toastMsg.style.padding = '12px';
+    toastMsg.style.borderRadius = '60px';
+    toastMsg.style.fontWeight = 'bold';
+    toastMsg.style.textAlign = 'center';
+    toastMsg.style.zIndex = '9999';
+    toastMsg.style.backdropFilter = 'blur(10px)';
+    document.body.appendChild(toastMsg);
+    setTimeout(() => toastMsg.remove(), 3500);
+  }
+  downloadBtn.addEventListener('click', triggerDownload);
+  
+  // ------------------- تفاعل الباقات المختلفة مع رسائل تعريفية ---------------------------------
+  // كل البطاقات التي تحتوي على قنوات وجودات متعددة ستعرض للمستخدم رسالة بإضافة القنوات قريباً
+  // لتجربة تفاعلية، وعند الضغط على أي قناة رياضية أو جودة بي إن، تظهر رسالة تشير إلى أن التطبيق يدعم التحديث اليومي
+  const allInteractiveCards = document.querySelectorAll('.quality-card, .pack-card, .channel-item');
+  function showNotification(msg, type = 'info') {
+    let notifDiv = document.createElement('div');
+    notifDiv.innerText = msg;
+    notifDiv.style.position = 'fixed';
+    notifDiv.style.bottom = '70px';
+    notifDiv.style.left = '16px';
+    notifDiv.style.right = '16px';
+    notifDiv.style.backgroundColor = type === 'success' ? '#0f7b3acc' : '#1e3a8ae6';
+    notifDiv.style.borderRadius = '40px';
+    notifDiv.style.padding = '14px 20px';
+    notifDiv.style.zIndex = '10000';
+    notifDiv.style.fontWeight = 'bold';
+    notifDiv.style.textAlign = 'center';
+    notifDiv.style.backdropFilter = 'blur(12px)';
+    notifDiv.style.border = '1px solid gold';
+    notifDiv.style.fontSize = '18px';
+    document.body.appendChild(notifDiv);
+    setTimeout(() => notifDiv.remove(), 2700);
+  }
+  
+  // إضافة أحداث لكل العناصر لعرض خاصية الطلب اليومي وإضافة قنوات
+  allInteractiveCards.forEach(card => {
+    card.addEventListener('click', (e) => {
+      e.stopPropagation();
+      // معلومات مختلفة حسب نوع الضغط
+      let message = '';
+      if (card.classList.contains('quality-card')) {
+        const qual = card.getAttribute('data-quality') || card.innerText;
+        message = `✨ جودة ${qual} لـ beIN SPORTS متوفرة داخل التطبيق بعد التحميل. يمكنك اختيار الجودة المناسبة لنتك.`;
+        if (qual === '4k') message = `🎥✨ جودة 4K فائقة الوضوح لقنوات beIN و الرياضية، استمتع بأفضل تجربة بعد تثبيت التطبيق.`;
+        showNotification(message, 'success');
+      } 
+      else if (card.classList.contains('pack-card')) {
+        const category = card.getAttribute('data-category');
+        if (category === 'kids') message = '🧸 باقة الأطفال: قنوات كرتون نتورك، MBC3، سبيس تون، ونكون محدثة يومياً.';
+        else if (category === 'news') message = '📺 باقة الأخبار: الجزيرة، العربية، سكاي نيوز عربية، BBC عربي. يتم إضافة قنوات حسب الطلب.';
+        else if (category === 'doc') message = '🌿 وثائقيات: ناشيونال جيوغرافيك، ديسكفري، بي بي سي إيرث، والمزيد يضاف أسبوعياً.';
+        else message = '🆕 يتم إضافة قنوات يومياً بناءً على طلب المشاهدين! تواصل معنا عبر حساب OmarTV لو طلب قناة معينة أو فيلم.';
+        showNotification(message);
+      } 
+      else if (card.classList.contains('channel-item')) {
+        const channelName = card.innerText.slice(0, 30);
+        message = `📡 قناة ${channelName} : متاحة ضمن تطبيق OmarTV بث مباشر وجودة تصل إلى 4K. تمت إضافة القناة بناءً على طلب المتابعين.`;
+        showNotification(message);
+      } else {
+        showNotification('⭐ يمكنك مشاهدة جميع القنوات والأفلام بأعلى جودة بعد تحميل التطبيق. يتم تحديث المكتبة يومياً.');
+      }
+    });
+  });
+  
+  // إضافة رسالة تحديث يومي وصيانة للقنوات حسب الطلب
+  const dailyRequestSpan = document.querySelector('[data-category="daily"]');
+  if (dailyRequestSpan) {
+    dailyRequestSpan.addEventListener('click', () => {
+      showNotification('📢 اطلب قناتك الرياضية أو المسلسل الأنسب وسنضيفه خلال 24 ساعة. فريق OmarTV يخدمكم يومياً!');
+    });
+  }
+  
+  // إضافة معاينة للجودة عند تحميل التطبيق
+  console.log('OmarTV | TV Ready | تحميل و beIN SPORT جودات متعددة, 4K , طلب القنوات يومي.');
+  
+  // من أجل دعم إظهار "تم إضافة قنوات جديدة اليوم" بشكل حيوي
+  const footerNote = document.createElement('div');
+  footerNote.style.marginTop = '12px';
+  footerNote.style.fontSize = '14px';
+  footerNote.style.color = '#ffdd99';
+  footerNote.innerHTML = '🟢 اليوم: تم إضافة قناتين رياضيتين عربيتين و فيلم 4K جديد حسب طلب الأعضاء | التطبيق محدث يومياً';
+  document.querySelector('footer')?.before(footerNote);
+  
+  // خاصية إضافية لإظهار أن التطبيق يدعم بي إن سبورت بجودات لكل سرعات النت
+  // عمل توجيه إضافي لعنصر التحميل: عند الضغط تبدأ التحميل + عرض الجودات
+  // لا تغيير
+</script>
+
+<!-- ضمان أن زر التحميل دائمًا في أعلى التسلسل حتى لو تم إضافة عناصر جديدة -->
+</body>
+</html>
