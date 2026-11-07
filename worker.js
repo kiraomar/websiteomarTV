@@ -1,4 +1,4 @@
-import {signedHeaders} from './lib/signing.js';
+import {signedHeaders} from './signing.js';
 
 const API_HOST='https://api3.aoneroom.com';
 const BOOTSTRAP_HOST='https://apig.inmoviebox.com';
