@@ -4,6 +4,9 @@
   "main": "worker.js",
   "compatibility_date": "2026-11-07",
   "workers_dev": true,
+  "placement": {
+    "hostname": "api3.aoneroom.com"
+  },
   "assets": {
     "directory": ".",
     "binding": "ASSETS",
