@@ -56,15 +56,19 @@ export function clientToken(timestamp) {
 
 export function signedHeaders(url, method, body, secret, authorization='') {
   const timestamp=String(Date.now());
-  const bodyBytes=encoder.encode(body||'');
-  const contentType='application/json; charset=utf-8';
+  // MovieBox's provider signs GETs with a null body and an empty length field.
+  // Sending "0" or a charset suffix changes the canonical string and invalidates
+  // x-tr-signature even though the HTTP request itself has no body.
+  const bodyBytes=body==null?null:encoder.encode(body);
+  const contentType='application/json';
   const accept='application/json';
   const query=[...url.searchParams.entries()]
     .sort(([ak,av],[bk,bv])=>ak===bk?av.localeCompare(bv):ak.localeCompare(bk))
     .map(([k,v])=>`${k}=${v}`).join('&');
   const pathAndQuery=url.pathname+(query?`?${query}`:'');
-  const bodyHash=bodyBytes.length?hex(md5(bodyBytes.subarray(0,102400))):'';
-  const canonical=[method.toUpperCase(),accept,contentType,String(bodyBytes.length),timestamp,bodyHash,pathAndQuery].join('\n');
+  const bodyHash=bodyBytes?.length?hex(md5(bodyBytes.subarray(0,102400))):'';
+  const bodyLength=bodyBytes==null?'':String(bodyBytes.length);
+  const canonical=[method.toUpperCase(),accept,contentType,bodyLength,timestamp,bodyHash,pathAndQuery].join('\n');
   const signature=`${timestamp}|2|${base64(hmacMd5(secret,encoder.encode(canonical)))}`;
   const info={package_name:'com.community.mbox.in',version_name:'3.0.03.0529.03',version_code:50020042,os:'android',os_version:'16',device_id:'d7578036d13336cc',install_store:'ps',gaid:'d7578036d13336cc',brand:'google',model:'sdk_gphone64_x86_64',system_language:'en',net:'NETWORK_WIFI',region:'IN',timezone:'Asia/Calcutta',sp_code:''};
   return {'Accept':accept,'Content-Type':contentType,'User-Agent':'com.community.mbox.in/50020042 (Linux; U; Android 16; en_IN; sdk_gphone64_x86_64; Build/BP22.250325.006; Cronet/133.0.6876.3)','X-Client-Token':clientToken(timestamp),'x-tr-signature':signature,'x-client-info':JSON.stringify(info),'x-client-status':'0','x-play-mode':'2',...(authorization?{Authorization:`Bearer ${authorization}`}:{})};

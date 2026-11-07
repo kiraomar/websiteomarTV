@@ -20,7 +20,8 @@ function extractToken(response){
 async function upstream(url,method,body='',token=''){
   let lastResponse;
   for(const key of SIGNING_KEYS){
-    const response=await fetch(url,{method,headers:signedHeaders(new URL(url),method,body,key,token),body:method==='GET'?undefined:body,redirect:'follow'});
+    const signedBody=method==='GET'?null:body;
+    const response=await fetch(url,{method,headers:signedHeaders(new URL(url),method,signedBody,key,token),body:method==='GET'?undefined:body,redirect:'follow'});
     lastResponse=response;
     if(response.status!==407)return response;
   }
@@ -31,7 +32,9 @@ async function getGuestToken(){
   if(guestToken)return guestToken;
   const url=BOOTSTRAP_HOST+'/wefeed-mobile-bff/tab/ranking-list?tabId=0&categoryType=4516404531735022304&page=1&perPage=1';
   const response=await upstream(url,'GET');
+  if(!response.ok)throw new Error(`MovieBox token request returned HTTP ${response.status}: ${(await response.text()).slice(0,240)}`);
   guestToken=extractToken(response);
+  if(!guestToken)throw new Error('MovieBox did not provide an x-user guest token');
   return guestToken;
 }
 
