@@ -1,9 +1,18 @@
 # MovieBox Discovery UI
 
-واجهة عربية ثابتة لا تحتاج إلى Node.js أو خادم خاص. ارفع ملفات `index.html` و`app.js` و`style.css` إلى مستودع GitHub، ثم فعّل GitHub Pages من إعدادات المستودع واختر الفرع والمجلد الذي يحتوي `index.html`.
+واجهة ثابتة لـ GitHub Pages. ارفع `index.html` و`app.js` و`style.css` إلى المستودع وفعّل Pages.
 
-## ملاحظة اتصال API
+## تحليل MovieBoxProvider.cs3
 
-تتصل الواجهة مباشرة بمسارات MovieBox المستخرجة من إضافة Cloudstream (`api3.aoneroom.com`). قد تمنع الخدمة الاتصال من المتصفح بسبب CORS، أو تتطلب رمز ضيف وتوقيعاً وترويسات تولدها الإضافة. في هذه الحالة ستظهر رسالة الخطأ داخل الصفحة. تجاوز ذلك يتطلب وسيطاً منشوراً على خدمة تدعم تشغيل الخادم؛ ملفات GitHub Pages وحدها لا تستطيع إخفاء أسرار المصادقة أو تجاوز CORS.
+تم تصحيح شكل الطلبات في `app.js` بعد قراءة كود الإضافة:
 
-هذه النسخة تعرض قوائم وبحثاً وتفاصيل عندما تسمح الخدمة بالوصول. التشغيل الفعلي يحتاج دعم جلسة الخدمة وروابط البث، وقد يختلف عن إضافة Cloudstream.
+- البحث `POST /wefeed-mobile-bff/subject-api/search/v2` بجسم JSON يحتوي `page` و`perPage` و`keyword`.
+- القائمة `POST /wefeed-mobile-bff/subject-api/list` بجسم JSON يحتوي إعدادات التصفح.
+- التفاصيل `GET /wefeed-mobile-bff/subject-api/get?subjectId=...`.
+- أسماء الرؤوس في الإضافة تشمل `x-client-token` و`x-tr-signature` و`x-client-info` و`x-client-status`، مع `Authorization: Bearer ...` بعد جلب رمز الضيف. رمز العميل صيغته `timestamp,md5(reverse(timestamp))`.
+
+## قيد النشر الثابت
+
+هذه النسخة ترسل بعض رؤوس العميل وجسم الطلب الصحيح، لكنها لا تستطيع وحدها إكمال الطلبات التي تتطلب توقيع HMAC ورمز الضيف. كما أن المتصفح يمنع تغيير `User-Agent`، وقد تمنع سياسة CORS طلبات MovieBox من نطاق GitHub Pages. لذلك قد تظل النتائج فارغة حتى عند صحة المسارات.
+
+لجلب المحتوى بصورة موثوقة يلزم وسيط API يعمل من جهة الخادم ويضيف توقيع MovieBox ورمز الضيف ثم يتيح CORS للواجهة. يمكن إبقاء الشيفرة والواجهة في GitHub، لكن استضافة GitHub Pages وحدها لا تشغّل هذا الوسيط.
