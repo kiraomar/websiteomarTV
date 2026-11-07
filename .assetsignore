@@ -1,0 +1,11 @@
+README.md
+wrangler.jsonc
+worker.js
+signing.js
+*.dex
+*.cs3
+.gitignore
+.assetsignore
+/.git/
+/.wrangler/
+*.map
