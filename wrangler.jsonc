@@ -5,7 +5,7 @@
   "compatibility_date": "2026-11-07",
   "workers_dev": true,
   "placement": {
-    "hostname": "api3.aoneroom.com"
+    "region": "aws:ap-south-1"
   },
   "assets": {
     "directory": ".",
